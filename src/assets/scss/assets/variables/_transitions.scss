@@ -1,0 +1,7 @@
+$duration-slow: 800ms;
+$duration-normal: 400ms;
+$duration-fast: 200ms;
+
+$transition-slow: $duration-slow ease-in-out;
+$transition-normal: $duration-normal ease-in-out;
+$transition-fast: $duration-fast ease-in-out;

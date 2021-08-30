@@ -1,0 +1,20 @@
+a {
+  text-decoration: none;
+}
+
+h1 {
+  @include text-style(very-big, bold, 40px);
+  color: $color-dark;
+  display: inline-block;
+  margin-top: 30px;
+}
+
+h2 {
+  margin-top: 30px;
+}
+
+h2,
+h3 {
+  @include text-style(big, bold, 29px);
+  display: inline-block;
+}

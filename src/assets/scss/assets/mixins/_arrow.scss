@@ -1,0 +1,8 @@
+@mixin arrow($stroke-length, $stroke-width, $color, $rotation) {
+  width: $stroke-length;
+  height: $stroke-length;
+  border-bottom: $stroke-width solid $color;
+  border-right: $stroke-width solid $color;
+  transform-origin: center center;
+  transform: rotate(#{$rotation});
+}

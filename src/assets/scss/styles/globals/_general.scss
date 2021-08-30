@@ -1,0 +1,20 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: inherit;
+}
+
+body {
+  font-family: 'Poppins';
+  overflow-x: hidden;
+  background-color: $color-white;
+  color: $color-dark;
+}
+
+section.page {
+  margin-top: 40px; //height of header
+  padding: 0 $whitespace;
+}
