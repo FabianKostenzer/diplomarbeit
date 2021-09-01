@@ -1,22 +1,25 @@
 import { ref } from '@vue/reactivity'
+
+// fetches user data from API, extends it by skill and levels key
 async function loadUserData(userData) {
   const res = await fetch('http://localhost:3000/user')
   const data = await res.json()
   userData.value = data
-  calculateLevels(userData)
+  calculateLevelDistribution(userData)
   calculateSkillValue(userData)
 }
 
+// adds skill key to fetched JSON, overall skill in percentage
 function calculateSkillValue(userData) {
   let sum = 0
   userData.value.levels.forEach((level, i) => {
-    // valueFactors: 1, 0.75, 0.5, 0.25, 0
     sum += level * (1 - 0.25 * i)
   })
   userData.value.skill = sum | 0
 }
 
-function calculateLevels(userData) {
+// adds levels key to fetched JSON, Array with percentages of certain level
+function calculateLevelDistribution(userData) {
   let recordsAmount = 0
   const levels = [0, 0, 0, 0, 0]
   userData.value.topics.forEach(topic => {
