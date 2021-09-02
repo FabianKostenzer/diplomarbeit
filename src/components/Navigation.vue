@@ -1,5 +1,5 @@
 <template>
-  <nav class="Navigation">
+  <nav class="Navigation" ref="navigation">
     <div @click="toggleNav()" class="open-nav">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -123,7 +123,8 @@
 <script>
 import { ref } from '@vue/reactivity'
 import { gsap } from 'gsap'
-import { onMounted } from '@vue/runtime-core'
+import { onMounted, watch } from '@vue/runtime-core'
+import { useRoute } from 'vue-router'
 
 export default {
   name: 'Navigation',
@@ -187,12 +188,27 @@ export default {
       navigationOpened = !navigationOpened
     }
 
+    // hide Nav on Login
+    const navigation = ref(null)
+    const route = useRoute()
+    watch(
+      () => route.name,
+      () => {
+        if (route.name === 'Login' || route.name === 'Register') {
+          navigation.value.classList.add('hidden')
+        } else {
+          navigation.value.classList.remove('hidden')
+        }
+      }
+    )
+
     return {
       toggleNav,
       navItems,
       secondListLine,
       navContainer,
-      closeNav
+      closeNav,
+      navigation
     }
   }
 }
@@ -200,6 +216,9 @@ export default {
 
 <style lang="scss">
 .Navigation {
+  &.hidden {
+    display: none !important;
+  }
   .nav-container {
     position: fixed;
     top: 0;

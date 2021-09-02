@@ -7,6 +7,8 @@ import List from '../views/List.vue'
 import Settings from '../views/Settings.vue'
 import FAQ from '../views/FAQ.vue'
 import Impressum from '../views/Impressum.vue'
+import Login from '../views/Login.vue'
+import Register from '../views/Register.vue'
 
 const routes = [
   {
@@ -48,6 +50,16 @@ const routes = [
     path: '/impressum',
     name: 'Impressum',
     component: Impressum
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register
   }
 ]
 

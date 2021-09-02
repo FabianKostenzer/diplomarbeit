@@ -1,6 +1,6 @@
 <template>
   <transition name="fadeFooterNav">
-    <section class="Footer-Navigation" v-if="isVisible">
+    <section class="Footer-Navigation" v-if="isVisible" ref="footerNavigation">
       <ul class="icon-list" ref="iconList">
         <li>
           <router-link to="/" class="icon-link">
@@ -104,9 +104,30 @@
 </template>
 
 <script>
+import { ref } from '@vue/reactivity'
+import { useRoute } from 'vue-router'
+import { watch } from '@vue/runtime-core'
 export default {
   name: 'FooterNav',
-  props: { isVisible: Boolean }
+  props: { isVisible: Boolean },
+  setup() {
+    // hide FooterNav on Login without Animation
+    const footerNavigation = ref(null)
+    const route = useRoute()
+    watch(
+      () => route.name,
+      () => {
+        if (footerNavigation.value) {
+          if (route.name === 'Login' || route.name === 'Register') {
+            footerNavigation.value.classList.add('hidden')
+          } else {
+            footerNavigation.value.classList.remove('hidden')
+          }
+        }
+      }
+    )
+    return { footerNavigation }
+  }
 }
 </script>
 
@@ -131,6 +152,9 @@ export default {
   bottom: 0;
   height: 40px;
 
+  &.hidden {
+    display: none !important;
+  }
   .icon-list {
     background-color: $color-white;
     box-shadow: 0px -4px 28px 0px rgba($color-primary, 0.07);

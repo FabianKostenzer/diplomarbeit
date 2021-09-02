@@ -153,14 +153,14 @@
   </section>
 </template>
 <script>
-import { onUpdated } from '@vue/runtime-core'
+import { onMounted, onUpdated } from '@vue/runtime-core'
 import { userData } from '../assets/js/data'
 import gsap from 'gsap/all'
 export default {
   name: 'Home',
   setup() {
     // Loading Animation
-    onUpdated(() => {
+    function animate() {
       const selectors = ['h1', '.card']
       const loadingAnimation = gsap.timeline({
         defaults: { ease: 'power2.out' }
@@ -172,7 +172,10 @@ export default {
         stagger: 0.15,
         y: +40
       })
-    })
+    }
+
+    onUpdated(() => animate())
+    onMounted(() => animate())
     return { userData }
   }
 }
