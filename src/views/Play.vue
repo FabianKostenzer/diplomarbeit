@@ -294,7 +294,7 @@ export default {
 
     .modul {
       height: $card-height;
-      width: 42%;
+      width: 140px;
       border-radius: 6px;
       background-color: $color-white;
       text-align: center;

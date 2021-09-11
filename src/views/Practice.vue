@@ -268,10 +268,12 @@
 </template>
 <script>
 /* eslint-disable no-labels */
-import { computed, ref, watch } from '@vue/runtime-core'
+import { computed, onUnmounted, ref, watch } from '@vue/runtime-core'
 import { useRoute } from 'vue-router'
-import { userData } from '../assets/js/data'
+import { userData, loadUserData } from '../assets/js/data'
 import Search from '../components/Search.vue'
+import axios from 'axios'
+import store from '../store/index'
 export default {
   name: 'Practice',
   components: {
@@ -532,6 +534,22 @@ export default {
         }
       }
 
+      // creates Array and sends it to backend, to be saved
+      const recordsRequest = []
+      records.value.forEach((record, i) => {
+        const id = record.id
+        const isCorrect = correct.includes(i)
+        recordsRequest.push({
+          recordId: id,
+          correct: isCorrect
+        })
+      })
+
+      axios.post('http://localhost:3000/updateRecords', {
+        userId: store.state.userId,
+        records: recordsRequest
+      })
+
       // temporary array which gets moved into output
       const sortedInputs = []
 
@@ -597,6 +615,11 @@ export default {
       correctPercentage.value = (correct.length * 100) / amountOfRecords + '%'
       finished.value = true
     }
+
+    // updates userdata on view leave
+    onUnmounted(() => {
+      loadUserData(userData)
+    })
 
     return {
       userData,
@@ -825,6 +848,8 @@ export default {
   }
 
   #output {
+    padding-bottom: $whitespace-scroll;
+
     .diagram {
       width: 100%;
       display: flex;

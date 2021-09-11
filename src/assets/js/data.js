@@ -1,10 +1,25 @@
 import { ref } from '@vue/reactivity'
+import store from '../../store/index'
+import { watch } from 'vue'
+import axios from 'axios'
 
-// fetches user data from API, extends it by skill and levels key
+// makes sure to load data after login
+watch(
+  () => store.state.userId,
+  () => {
+    if (store.state.userId !== null) {
+      loadUserData(userData)
+    }
+  }
+)
+// gets user data from API, extends it by skill and levels key
 async function loadUserData(userData) {
-  const res = await fetch('http://localhost:3000/user')
-  const data = await res.json()
-  userData.value = data
+  const res = await axios.get('http://localhost:3000/user', {
+    params: {
+      userId: store.state.userId
+    }
+  })
+  userData.value = await res.data
   calculateLevelDistribution(userData)
   calculateSkillValue(userData)
 }
@@ -32,5 +47,4 @@ function calculateLevelDistribution(userData) {
 }
 
 const userData = ref(null)
-loadUserData(userData)
 export { userData, loadUserData }

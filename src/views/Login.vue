@@ -1,24 +1,26 @@
 <template>
   <section class="page login" id="Login">
     <h1>Anmeldung</h1>
-    <p class="error">Passwort nicht korrekt</p>
-    <form action="" class="login-form">
+    <p v-if="error" class="error">{{ error }}</p>
+    <form @submit.prevent="onLogin" class="login-form">
       <div class="form-item">
         <label for="email">E-Mail</label>
         <input
           id="email"
           type="email"
           required
-          placeholder="Geben Sie hier Ihre Email ein..."
+          placeholder="Geben Sie hier Ihre E-Mail ein..."
+          v-model="email"
         />
       </div>
       <div class="form-item">
         <label for="password">Passwort</label>
         <input
           id="password"
-          type="password"
+          type="text"
           required
           placeholder="Geben Sie hier Ihr Passwort ein..."
+          v-model="password"
         />
       </div>
       <input type="submit" class="btn" value="Anmelden" />
@@ -31,8 +33,48 @@
 </template>
 
 <script>
+import { ref } from '@vue/reactivity'
+import axios from 'axios'
+import store from '../store/index'
+import router from '../router/index'
 export default {
-  name: 'Login'
+  name: 'Login',
+  setup() {
+    const email = ref('')
+    const password = ref('')
+    const error = ref('')
+
+    async function onLogin() {
+      try {
+        // sends get request to server
+        const res = await axios.get('http://localhost:3000/login', {
+          params: {
+            email: email.value,
+            password: password.value
+          }
+        })
+
+        // checks server-response for errors
+        if (res.data === 'UNKNOWN_EMAIL') {
+          error.value = 'Kein Nutzer mit dieser E-Mail.'
+          return
+        }
+        if (res.data === 'WRONG_PASSWORD') {
+          error.value = 'Falsches Passwort.'
+          return
+        }
+
+        error.value = ''
+
+        // sets userid in vuex store and redirects to home
+        store.commit('setUserId', res.data)
+        router.push('/')
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    return { onLogin, email, password, error }
+  }
 }
 </script>
 

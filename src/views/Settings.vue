@@ -10,7 +10,7 @@
       v-model="searchInput"
     />
 
-    <form action="" @click="escapeEditMode">
+    <form @click="escapeEditMode">
       <div
         class="accounts"
         :class="{
@@ -81,7 +81,7 @@
 
     <transition name="fadeButtons">
       <div class="buttons" v-if="changed">
-        <button type="submit" class="save" @click.prevent="onSave">
+        <button class="save" @click.prevent="onSave">
           Speichern
         </button>
         <div class="reset" @click="onReset">
@@ -110,6 +110,8 @@ import { userData, loadUserData } from '../assets/js/data'
 import { computed, watch } from '@vue/runtime-core'
 import Search from '../components/Search'
 import Accordeon from '../components/Accordeon'
+import axios from 'axios'
+import store from '../store/index'
 
 export default {
   name: 'Settings',
@@ -172,12 +174,19 @@ export default {
     function onSave() {
       accountInEditMode.value = null
       changed.value = false
+      axios.post('http://localhost:3000/updateAccounts', {
+        userId: store.state.userId,
+        newUserAccounts: userData.value.accounts
+      })
     }
 
-    function onReset() {
-      loadUserData(userData)
+    async function onReset() {
       accountInEditMode.value = null
       changed.value = false
+      await axios.post('http://localhost:3000/resetAccounts', {
+        userId: store.state.userId
+      })
+      loadUserData(userData)
     }
 
     function onFavoriteClick(account) {

@@ -153,7 +153,7 @@
   </section>
 </template>
 <script>
-import { onMounted, onUpdated } from '@vue/runtime-core'
+import { onUpdated } from '@vue/runtime-core'
 import { userData } from '../assets/js/data'
 import gsap from 'gsap/all'
 export default {
@@ -175,7 +175,6 @@ export default {
     }
 
     onUpdated(() => animate())
-    onMounted(() => animate())
     return { userData }
   }
 }
@@ -197,6 +196,7 @@ export default {
     gap: 15px;
     height: 500px;
     margin-top: 40px;
+    margin-bottom: 100px;
 
     .card {
       background: $color-white;
