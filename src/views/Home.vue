@@ -41,7 +41,7 @@
 
         <p class="card-content">
           <span class="subtitle">Übe alle</span>
-          Themengebiete
+          Themen&shy;gebiete
         </p>
       </router-link>
 
@@ -91,7 +91,7 @@
 
         <p class="card-content">
           <span class="subtitle">Überprüfe deinen</span>
-          Lernfortschritt
+          Lernfort&shy;schritt
         </p>
       </router-link>
 
@@ -113,7 +113,7 @@
         </svg>
         <p class="card-content">
           <span class="subtitle">Checke alle</span>
-          Buchungssätze
+          Buchungs&shy;sätze
         </p>
       </router-link>
 
@@ -146,7 +146,7 @@
         </div>
         <p class="card-content">
           <span class="subtitle">Dein aktueller</span>
-          Leistungsstand
+          Leistungs&shy;stand
         </p>
       </div>
     </div>
@@ -188,15 +188,14 @@ export default {
       display: block;
     }
   }
-
   .cards {
+    margin: 40px -#{$whitespace} 100px;
+    padding: 0 $whitespace;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(100px, 1fr));
     grid-template-rows: repeat(6, 1fr);
     gap: 15px;
-    height: 500px;
-    margin-top: 40px;
-    margin-bottom: 100px;
+    min-height: 500px;
 
     .card {
       background: $color-white;
@@ -231,6 +230,7 @@ export default {
 
       .card-content {
         @include text-style(regular, bold, 23px);
+        hyphens: manual;
 
         .subtitle {
           @include text-style(small, medium, 18px);
