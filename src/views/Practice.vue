@@ -545,7 +545,7 @@ export default {
         })
       })
 
-      axios.post('http://localhost:3000/updateRecords', {
+      axios.post(store.state.APIURL + '/updateRecords', {
         userId: store.state.userId,
         records: recordsRequest
       })

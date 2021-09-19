@@ -174,7 +174,7 @@ export default {
     function onSave() {
       accountInEditMode.value = null
       changed.value = false
-      axios.post('http://localhost:3000/updateAccounts', {
+      axios.post(store.state.APIURL + '/updateAccounts', {
         userId: store.state.userId,
         newUserAccounts: userData.value.accounts
       })
@@ -183,7 +183,7 @@ export default {
     async function onReset() {
       accountInEditMode.value = null
       changed.value = false
-      await axios.post('http://localhost:3000/resetAccounts', {
+      await axios.post(store.state.APIURL + '/resetAccounts', {
         userId: store.state.userId
       })
       loadUserData(userData)

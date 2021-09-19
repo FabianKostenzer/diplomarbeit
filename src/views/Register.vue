@@ -46,6 +46,7 @@
 import axios from 'axios'
 import { ref } from '@vue/reactivity'
 import router from '../router/index'
+import store from '../store/index'
 export default {
   name: 'Register',
   setup() {
@@ -56,7 +57,7 @@ export default {
     async function onRegister() {
       try {
         // sends post request to server
-        const res = await axios.post('http://localhost:3000/register', {
+        const res = await axios.post(store.state.APIURL + '/register', {
           email: email.value,
           name: name.value,
           password: password.value

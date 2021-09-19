@@ -14,7 +14,7 @@ watch(
 )
 // gets user data from API, extends it by skill and levels key
 async function loadUserData(userData) {
-  const res = await axios.get('http://localhost:3000/user', {
+  const res = await axios.get(store.state.APIURL + '/user', {
     params: {
       userId: store.state.userId
     }

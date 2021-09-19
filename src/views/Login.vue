@@ -47,7 +47,7 @@ export default {
     async function onLogin() {
       try {
         // sends get request to server
-        const res = await axios.get('http://localhost:3000/login', {
+        const res = await axios.get(store.state.APIURL + '/login', {
           params: {
             email: email.value,
             password: password.value

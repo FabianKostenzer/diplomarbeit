@@ -2,7 +2,8 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    userId: null
+    userId: null,
+    APIURL: 'http://localhost:3000'
   },
   mutations: {
     setUserId(state, id) {
