@@ -398,7 +398,8 @@ export default {
     // Helper Functions
     function getAccountNumberById(id) {
       if (!id) return null
-      return accounts.value[id].number
+      if (accounts.value[id].id === id) return accounts.value[id].number
+      return accounts.value.find(account => account.id === id).number
     }
 
     function getAccountNameByNumber(number) {
@@ -486,6 +487,7 @@ export default {
 
         solutions.push(newRecord)
       })
+      console.log(solutions)
 
       // creates empty vanilla js array for user input, see pattern above
       const inputs = []
@@ -678,7 +680,8 @@ export default {
     .input-area {
       padding-bottom: 35px;
       box-shadow: 0px 10px 22px 0px rgba($color-primary, 0.06);
-      width: 100%;
+      margin: 0 -#{$whitespace};
+      padding: 0 $whitespace 35px;
 
       .navigation {
         margin-top: 30px;
