@@ -129,8 +129,12 @@ export default {
       emit('toggleFooterNav', !changed.value)
     })
 
+    // improve performance by only loading a certain amount on initial load, the rest after 100ms
     const initialLoad = ref(true)
-    // fetch and sort the accounts from the API
+    const initalAmountOfAccounts = 20
+    const delayToLoadAllAccounts = 100
+
+    // fetches, sort and filters the accounts from the API
     const accounts = computed(() => {
       if (!userData) return []
       const accountList = [[], [], [], [], [], [], [], [], [], []]
@@ -138,12 +142,28 @@ export default {
         .slice(0) // duplicate, in oder to not change the original order
         .sort((a, b) => (a.number | 0) - (b.number | 0))
 
-      const amountOfAccountsToLoad = initialLoad.value ? 20 : accountData.length
+      const amountOfAccountsToLoad = initialLoad.value
+        ? initalAmountOfAccounts
+        : accountData.length
+      const search = searchInput.value
+
       for (let i = 0; i < amountOfAccountsToLoad; i++) {
         const currentAccount = accountData[i]
-        accountList[parseInt(currentAccount.number.toString()[0])].push(
-          currentAccount
-        )
+        const currentAccountNumberString = currentAccount.number.toString()
+
+        // filter by SearchInput
+        if (!search) {
+          accountList[parseInt(currentAccountNumberString[0])].push(
+            currentAccount
+          )
+        } else if (
+          currentAccountNumberString.startsWith(search) ||
+          currentAccount.name.toLowerCase().startsWith(search.toLowerCase())
+        ) {
+          accountList[parseInt(currentAccountNumberString[0])].push(
+            currentAccount
+          )
+        }
       }
       return accountList
     })
@@ -151,7 +171,7 @@ export default {
     onMounted(() => {
       setTimeout(() => {
         initialLoad.value = false
-      }, 100)
+      }, delayToLoadAllAccounts)
     })
 
     // ID of the account which gets currently edited
