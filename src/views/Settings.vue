@@ -32,7 +32,7 @@
           <template v-slot:content>
             <div
               class="account"
-              v-for="account in getFilteredAccounts(accounts[c], searchInput)"
+              v-for="account in accounts[c]"
               :key="account.id"
               :class="getAccountClasses(account)"
             >
@@ -107,7 +107,7 @@
 <script>
 import { ref } from '@vue/reactivity'
 import { userData, loadUserData } from '../assets/js/data'
-import { computed, watch } from '@vue/runtime-core'
+import { computed, onMounted, watch } from '@vue/runtime-core'
 import Search from '../components/Search'
 import Accordeon from '../components/Accordeon'
 import axios from 'axios'
@@ -129,43 +129,33 @@ export default {
       emit('toggleFooterNav', !changed.value)
     })
 
-    // fetch and sort the accounts form the API
+    const initialLoad = ref(true)
+    // fetch and sort the accounts from the API
     const accounts = computed(() => {
-      const accountList = []
+      if (!userData) return []
+      const accountList = [[], [], [], [], [], [], [], [], [], []]
       const accountData = userData.value.accounts
         .slice(0) // duplicate, in oder to not change the original order
         .sort((a, b) => (a.number | 0) - (b.number | 0))
-      let currentClassAccounts = []
-      let currentClass = 0
 
-      for (let i = 0; i < accountData.length; i++) {
-        if (accountData[i].number.startsWith(currentClass)) {
-          currentClassAccounts.push(accountData[i])
-          if (i + 1 === accountData.length) {
-            accountList.push(currentClassAccounts)
-          }
-        } else {
-          currentClass++
-          accountList.push(currentClassAccounts)
-          currentClassAccounts = []
-          i--
-        }
+      const amountOfAccountsToLoad = initialLoad.value ? 20 : accountData.length
+      for (let i = 0; i < amountOfAccountsToLoad; i++) {
+        const currentAccount = accountData[i]
+        accountList[parseInt(currentAccount.number.toString()[0])].push(
+          currentAccount
+        )
       }
       return accountList
     })
 
+    onMounted(() => {
+      setTimeout(() => {
+        initialLoad.value = false
+      }, 100)
+    })
+
     // ID of the account which gets currently edited
     const accountInEditMode = ref(null)
-
-    // filters the accounts based on the search input
-    function getFilteredAccounts(accounts, searchInput) {
-      return accounts.filter(
-        account =>
-          !searchInput ||
-          account.number.startsWith(searchInput.toLowerCase()) ||
-          account.name.toLowerCase().startsWith(searchInput.toLowerCase())
-      )
-    }
 
     /*
      * Buttons
@@ -241,7 +231,6 @@ export default {
       onSave,
       onReset,
       accounts,
-      getFilteredAccounts,
       onFavoriteClick,
       onEditClick,
       getAccountClasses,

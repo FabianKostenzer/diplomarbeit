@@ -85,6 +85,7 @@ const router = createRouter({
 
 // stores scroll distances
 const scrollDistances = {}
+const startAtTop = ['/settings', '/play'] // routes where it shouldn't save the distance
 
 // gets current scroll distance
 function getScrollDistance() {
@@ -94,7 +95,9 @@ function getScrollDistance() {
 
 router.beforeEach((to, from, next) => {
   // saves scroll distance
-  scrollDistances[from.fullPath] = getScrollDistance()
+  if (!startAtTop.includes(from.fullPath)) {
+    scrollDistances[from.fullPath] = getScrollDistance()
+  }
 
   // checks if to-route requires to be authorized
   const requiresAuth = to.matched.some(route => route.meta.requiresAuth)
