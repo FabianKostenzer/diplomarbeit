@@ -1,0 +1,34 @@
+Base URL: src\store\index.js -> APIURL
+
+Routes:
+    GET:
+        /login
+            params: Email, password
+            response: "UNKNOWN_EMAIL", "WRONG_PASSWORD" or ID of user
+            description: Returns errors if the email is unknown or the password is wrong. Otherwise it returns the ID of the user.
+    
+        /user
+            params: ID of user
+            response: JSON with name, accounts and topics (see old commits for an example (data/db.json))
+            description: Returns JSON of the user information, which is needed on the frontend. 
+    
+    POST:
+        /register
+            params: Email, name, password,
+            response: "EMAIL_ALREADY_USED" or Status 200
+            description: Registers a new user. Returns error if the email is already used.
+        
+        /updateAccounts
+            params: ID of user, JSON of new accounts
+            response: Status 200
+            description: Updates/changes the accounts-object of the user-JSON. For example: User changes names or numbers of the account list. After pressing "Save" this request gets sent to the API. 
+
+        /resetAccounts
+            params: ID of user
+            response: Status 200
+            description: Changes the accounts-object of the user-JSON back to default.
+
+        /updateRecords
+            params: ID of user, array of user input: id of record + boolean if input is correct
+            response: Status 200 
+            description: Changes the level of certain records after the user practiced them. The array of user inputs contains objects, which contain the ID of the record and a boolean if the user input was correct. The level of the records should change accordingly.
