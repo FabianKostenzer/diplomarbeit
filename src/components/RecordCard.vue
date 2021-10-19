@@ -62,6 +62,10 @@ export default {
   transition: transform $transition-slow;
   margin-top: 30px;
   position: relative;
+  min-height: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
   &.turned {
     transform: rotateX(180deg);
@@ -143,6 +147,8 @@ export default {
           opacity: 0.7;
           display: block;
           margin-top: -5px;
+          word-break: break-all;
+          padding-right: 10px;
         }
       }
     }

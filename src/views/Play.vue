@@ -50,7 +50,7 @@
             height: barHeights[m]
           }"
         >
-          <span class="percentage">{{ modulee }}%</span>
+          <span class="percentage">{{ Math.round(modulee) }}%</span>
         </div>
       </router-link>
     </div>

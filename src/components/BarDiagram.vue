@@ -9,7 +9,7 @@
           height: barHeights[i]
         }"
       >
-        <span class="value">{{ bar }}%</span>
+        <span class="value">{{ Math.round(bar) }}%</span>
       </li>
     </ul>
   </div>

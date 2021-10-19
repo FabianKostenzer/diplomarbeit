@@ -487,7 +487,6 @@ export default {
 
         solutions.push(newRecord)
       })
-      console.log(solutions)
 
       // creates empty vanilla js array for user input, see pattern above
       const inputs = []
@@ -765,8 +764,9 @@ export default {
         @include text-style(small, regular, 24px);
         opacity: 0.7;
         margin-top: 20px;
-        white-space: pre;
+        white-space: pre-line;
         min-height: 50px;
+        word-break: break-all;
       }
 
       .record-input {
