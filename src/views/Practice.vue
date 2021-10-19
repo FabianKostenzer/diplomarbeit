@@ -563,6 +563,11 @@ export default {
           solutions[bs][1].length
         )
 
+        if (amountOfAccountsPerSide === 1) {
+          sortedInputs[bs] = inputs[bs]
+          break
+        }
+
         const sortedRecord = []
 
         for (let side = 0; side < amountOfAccountsPerSide; side++) {
