@@ -1,7 +1,7 @@
 <template>
   <transition name="fadeHeader">
     <header v-if="isVisible" class="Header">
-      <span class="logo">Lernapp</span>
+      <span class="logo">Reco</span>
       <Navigation />
     </header>
   </transition>
